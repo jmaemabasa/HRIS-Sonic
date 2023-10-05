@@ -2,6 +2,7 @@ global using Microsoft.EntityFrameworkCore;
 global using HRIS.Shared;
 global using HRIS.Shared.MasterData;
 global using HRIS.Server.Data;
+global using HRIS.Server.Services.DivisionService;
 using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,9 @@ builder.Services.AddDbContext<DataContext>(options =>
 });
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+//INTERFACES
+builder.Services.AddScoped<IDivisionService, DivisionService>();
 
 var app = builder.Build();
 

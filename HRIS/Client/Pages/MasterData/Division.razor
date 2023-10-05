@@ -1,0 +1,44 @@
+﻿@page "/division"
+@inject IDivisionService DivisionService
+
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+    <h3 class="m-3 ms-0">Division Management</h3>
+</MudContainer>
+
+@*IF LOADING*@
+@if (DivisionService.Divisions == null || DivisionService.Divisions.Count == 0)
+{
+    <span>Loading........!!!!</span>
+}
+else {
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+           
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var div in DivisionService.Divisions)
+            {
+                <tr>
+                    <td>@div.Name</td>
+             
+                    <td>
+                        <button class="btn btn-primary"><i class="oi oi-pencil"></i></button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    //first rendered of the page / display divisions
+    protected override async Task OnInitializedAsync()
+    {
+        await DivisionService.GetDivisions();
+    }
+
+}

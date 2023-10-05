@@ -1,5 +1,7 @@
 ﻿@page "/division"
+@using HRIS.Client.Pages.Dialog.MasterDataDialog;
 @inject IDivisionService DivisionService
+@inject IDialogService DialogService
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <h3 class="m-3 ms-0">Division Management</h3>
@@ -24,9 +26,8 @@ else {
             {
                 <tr>
                     <td>@div.Name</td>
-             
                     <td>
-                        <button class="btn btn-primary"><i class="oi oi-pencil"></i></button>
+                        <button class="btn btn-primary"><i class="oi oi-pencil" @onclick="() => OpenUpdateDivision(div.Id)"></i></button>
                     </td>
                 </tr>
             }
@@ -35,10 +36,22 @@ else {
 }
 
 @code {
+
     //first rendered of the page / display divisions
     protected override async Task OnInitializedAsync()
     {
         await DivisionService.GetDivisions();
+    }
+
+
+    //OPEN DIALOGS
+    private void OpenUpdateDivision(int id)
+    {
+        var parameters = new DialogParameters<UpdateDivisionDialog>();
+        parameters.Add(x => x.Id, id);
+        
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+        DialogService.Show<UpdateDivisionDialog>("Update Division", parameters, options);
     }
 
 }
